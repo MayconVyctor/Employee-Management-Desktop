@@ -25,6 +25,10 @@ public class User {
     }
     
     private static void validateIdAndCreatedAt(Long id, Instant createdAt) {
+        if (id != null && id <= 0) {
+            throw new IllegalArgumentException("The id must be greater than zero");
+        }
+        
         boolean newUser = id == null && createdAt == null;
         boolean persistedUser = id != null && createdAt != null;
         if (!newUser && !persistedUser) {
