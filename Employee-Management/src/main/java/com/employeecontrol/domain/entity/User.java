@@ -37,7 +37,7 @@ public class User {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException("The " + field + " is required");
         }
-        return value;
+        return value.trim();
     }
         
     public Long getId() {
