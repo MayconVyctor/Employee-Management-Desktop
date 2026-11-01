@@ -50,5 +50,38 @@ public class UserRepositoryJdbc implements UserRepository {
         }
     }
     
-   
+    @Override 
+    public Optional<User> findByEmail(String email) {
+        String sql = """
+                     SELECT id, name, email 
+                     FROM users WHERE email = ?
+                     """;
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, email);
+        }catch (SQLException err) {
+             throw new DatabaseException("Failed", err);
+        } 
+        return Optional.empty();
+    }
+    
+    @Override
+    public boolean existsByEmail(String email) {
+        String sql = """
+                     SELECT EXISTS(SELECT 1 FROM users WHERE email = ?) AS email_exists
+                     """;
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            
+            try (ResultSet result = stmt.executeQuery()) {
+                if (!result.next()) {
+                    throw new SQLException("Existence query returned no result.");
+                }
+                return result.getBoolean("email_exists");
+
+            }
+        }catch (SQLException err) {
+            throw new DatabaseException("Failed to check if user email exists", err);
+        }
+    }
 }
