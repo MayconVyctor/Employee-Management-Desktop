@@ -21,4 +21,5 @@ jobs:
           cache: maven
           
       - name: Build and test
+        working-directory: ./Employee-Management
         run: mvn -B clean verify
