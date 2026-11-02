@@ -3,7 +3,7 @@ package com.employeecontrol.infrastructure.repository;
 import com.employeecontrol.domain.repository.UserRepository;
 import com.employeecontrol.infrastructure.exception.DatabaseException;
 import com.employeecontrol.domain.entity.User;
-import com.employeecontrol.domain.exception.UserAlreadyExistsException;
+import com.employeecontrol.domain.exception.UserNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -53,16 +53,28 @@ public class UserRepositoryJdbc implements UserRepository {
     @Override 
     public Optional<User> findByEmail(String email) {
         String sql = """
-                     SELECT id, name, email 
+                     SELECT id, name, email, password_hash, created_at 
                      FROM users WHERE email = ?
                      """;
         
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, email);
+            
+            try (ResultSet result = stmt.executeQuery()) {
+                if (!result.next()) {
+                     return Optional.empty();
+                }
+                User user = new User(result.getLong("id"),
+                                 result.getString("name"),
+                                 result.getString("email"),
+                                 result.getString("password_hash"),
+                                 result.getTimestamp("created_at").toInstant()
+                                 );
+                return  Optional.of(user);
+            }
         }catch (SQLException err) {
              throw new DatabaseException("Failed", err);
         } 
-        return Optional.empty();
     }
     
     @Override
