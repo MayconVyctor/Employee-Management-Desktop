@@ -3,14 +3,11 @@ package com.employeecontrol.infrastructure.repository;
 import com.employeecontrol.domain.repository.UserRepository;
 import com.employeecontrol.infrastructure.exception.DatabaseException;
 import com.employeecontrol.domain.entity.User;
-import com.employeecontrol.domain.exception.UserNotFoundException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -73,7 +70,7 @@ public class UserRepositoryJdbc implements UserRepository {
                 return  Optional.of(user);
             }
         }catch (SQLException err) {
-             throw new DatabaseException("Failed", err);
+             throw new DatabaseException("Failed to find user by email", err);
         } 
     }
     
