@@ -26,7 +26,7 @@ public class DatabaseConnection {
        try{
            return DriverManager.getConnection(url, user, password);
        }catch (SQLException err) {
-           throw new RuntimeException("Erro ao conectar no banco de dados", err);
+           throw new RuntimeException("Error connecting to the database", err);
        }
     }
     
