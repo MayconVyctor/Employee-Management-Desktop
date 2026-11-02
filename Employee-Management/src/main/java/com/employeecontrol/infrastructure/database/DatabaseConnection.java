@@ -1,5 +1,6 @@
 package com.employeecontrol.infrastructure.database;
 
+import com.employeecontrol.infrastructure.exception.DatabaseException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,7 +27,7 @@ public class DatabaseConnection {
        try{
            return DriverManager.getConnection(url, user, password);
        }catch (SQLException err) {
-           throw new RuntimeException("Error connecting to the database", err);
+           throw new DatabaseException("Error connecting to the database", err);
        }
     }
     
