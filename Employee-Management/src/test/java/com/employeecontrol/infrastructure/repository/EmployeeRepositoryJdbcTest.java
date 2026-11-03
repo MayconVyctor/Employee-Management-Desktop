@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.math.BigDecimal;
 
+import java.util.List;
+
 public class EmployeeRepositoryJdbcTest {
     
     private Connection connection;
@@ -47,4 +49,30 @@ public class EmployeeRepositoryJdbcTest {
         assertTrue(savedEmployee.isStatus());
     }
     
+    @Test
+    void shouldReturnAllEmployeesWhenEmployeesExist() {
+        LocalDate admissionDate1 = LocalDate.of(2026, 11, 16);
+        LocalDate admissionDate2 = LocalDate.of(2026, 11, 23);
+
+        Employee employeeToCreate = new Employee("Maycon Vyctor", admissionDate1, new BigDecimal("3500.00"));
+        Employee employeeToCreate2 = new Employee("Mike", admissionDate2, new BigDecimal("3500.00"));
+
+        
+        Employee savedEmployee = repository.save(employeeToCreate);
+        Employee savedEmployee2 = repository.save(employeeToCreate2);
+        
+        List<Employee> employees = repository.findAll();
+        
+        boolean employee1Exists = employees.stream()
+                                    .anyMatch(employee ->   
+                                    employee.getId().equals(savedEmployee.getId()));
+        
+        assertTrue(employee1Exists);
+        
+        boolean employee2Exists = employees.stream()
+                                    .anyMatch(employee ->   
+                                    employee.getId().equals(savedEmployee2.getId()));
+        
+        assertTrue(employee2Exists);
+    }
 }
