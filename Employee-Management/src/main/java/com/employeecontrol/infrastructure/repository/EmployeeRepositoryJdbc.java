@@ -54,5 +54,29 @@ public class EmployeeRepositoryJdbc implements EmployeeRepository {
         }
     }
     
-    
+    @Override
+    public List<Employee> findAll() {
+        List<Employee> employees = new ArrayList<>();
+        String sql ="""
+                     SELECT id, name, admission_date, salary, status, created_at 
+                     FROM employees
+                     """;
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            try (ResultSet result = stmt.executeQuery()) {
+                while(result.next()) {
+                    Employee employee = new Employee(result.getLong("id"),
+                                                        result.getString("name"),
+                                                        result.getObject("admission_date", LocalDate.class),
+                                                        result.getBigDecimal("salary"),
+                                                        result.getBoolean("status"),
+                                                        result.getTimestamp("created_at").toInstant());
+                    employees.add(employee);
+                }
+            }
+        }catch (SQLException err) {
+            throw new DatabaseException("Failed to retrieve employees from the database", err);
+        }
+       return employees;
+    }
 }
