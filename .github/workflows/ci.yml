@@ -35,10 +35,17 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Initialize database schema
+      - name: Initialize databases
         run: |
           container_id=$(docker ps --filter "ancestor=postgres:16" --format "{{.ID}}" | head -n 1)
-          docker exec -i "$container_id" psql -U postgres -d employee_control < Employee-Management/init.sql
+
+          docker exec -i "$container_id" \
+            psql -v ON_ERROR_STOP=1 -U postgres -d employee_control \
+            < Employee-Management/init.sql
+
+          docker exec -i "$container_id" \
+            psql -v ON_ERROR_STOP=1 -U postgres -d postgres \
+            < Employee-Management/init-test.sql
 
       - name: Build and test
         working-directory: ./Employee-Management
