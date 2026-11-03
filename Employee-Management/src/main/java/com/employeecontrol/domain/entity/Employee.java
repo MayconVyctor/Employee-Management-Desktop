@@ -29,6 +29,10 @@ public class Employee {
         this(null, name, admissionDate, salary, true, null);
     }
     
+    public Employee(String name, LocalDate admissionDate, BigDecimal salary, boolean status) {
+    this(null, name, admissionDate, salary, status, null);
+}
+    
     private static void validateIdAndCreatedAt(Long id, Instant createdAt) {
         if (id != null && id <= 0) {
             throw new IllegalArgumentException("The id must be greater than zero");
