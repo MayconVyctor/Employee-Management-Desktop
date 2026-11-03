@@ -75,4 +75,12 @@ public class EmployeeRepositoryJdbcTest {
         
         assertTrue(employee2Exists);
     }
+    
+    @Test
+    void shouldReturnEmptyListWhenNoEmployeesExist() {
+        
+        List<Employee> employees = repository.findAll();
+        
+        assertTrue(employees.isEmpty());
+    }
 }
