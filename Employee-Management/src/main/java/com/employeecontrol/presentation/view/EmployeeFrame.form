@@ -166,7 +166,7 @@
                 <Column editable="true" title="Name" type="java.lang.String"/>
                 <Column editable="true" title="Admission_Date" type="java.lang.Object"/>
                 <Column editable="true" title="Salary" type="java.lang.Object"/>
-                <Column editable="true" title="Status" type="java.lang.Boolean"/>
+                <Column editable="true" title="Status" type="java.lang.String"/>
               </Table>
             </Property>
           </Properties>
