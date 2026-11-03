@@ -56,6 +56,17 @@ A aplicação apresenta mensagens ao usuário por meio de `JOptionPane`, tratand
 - Data ou salário inválidos.
 - Falhas de conexão ou operações com o banco de dados.
 
+##  Telas da aplicação
+
+### Login
+![Login Screen](docs/screenshots/login.png)
+
+### User Registration
+![Registration Screen](docs/screenshots/register.png)
+
+### Employee Management
+![Employee Management Screen](docs/screenshots/employees.png)
+
 ## 3. Arquitetura do projeto
 
 O projeto utiliza princípios de Clean Architecture para separar regras de negócio, casos de uso, implementações técnicas e interface gráfica.
