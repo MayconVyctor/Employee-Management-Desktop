@@ -57,5 +57,19 @@ public class UserRepositoryJdbcTest {
         assertEquals("mike@gmail.com", foundUser.getEmail());
     }
     
+    @Test
+    void shouldReturnTrueWhenEmailExists() {
+        User userToCreate = new User("Maycon", "mike@gmail.com", "password123");
+        
+        User savedUser = repository.save(userToCreate);
+        
+        boolean emailExists = repository.existsByEmail(savedUser.getEmail());
+        assertTrue(emailExists);
+    }
     
+    @Test
+    void shouldReturnFalseWhenEmailDoesNotExist() {
+        boolean emailExists = repository.existsByEmail("notfoundemail@gmail.com");
+        assertFalse(emailExists);
+    }
 }
