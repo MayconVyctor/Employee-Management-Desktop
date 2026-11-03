@@ -53,9 +53,6 @@ public class Employee {
       if (date == null) {
           throw new IllegalArgumentException("Admission date is required");
       }
-      if (date.isAfter(LocalDate.now())) {
-          throw new IllegalArgumentException("Admission date cannot be in the future");
-      }
       return date;
     }
     
