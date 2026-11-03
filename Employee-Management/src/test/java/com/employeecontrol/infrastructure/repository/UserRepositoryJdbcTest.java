@@ -46,7 +46,7 @@ public class UserRepositoryJdbcTest {
     
     @Test
     void shouldReturnUserWhenEmailExists() {
-        User userToCreate = new User("Maycon", "mike@gmail.com", "password123");
+        User userToCreate = new User("Maycon", "maycon@gmail.com", "password123");
         
         User savedUser = repository.save(userToCreate);
         Optional<User> resultOptional = repository.findByEmail(savedUser.getEmail());
@@ -54,12 +54,12 @@ public class UserRepositoryJdbcTest {
         assertTrue(resultOptional.isPresent());
 
         User foundUser = resultOptional.get();
-        assertEquals("mike@gmail.com", foundUser.getEmail());
+        assertEquals("maycon@gmail.com", foundUser.getEmail());
     }
     
     @Test
     void shouldReturnTrueWhenEmailExists() {
-        User userToCreate = new User("Maycon", "mike@gmail.com", "password123");
+        User userToCreate = new User("Maycon", "existisemail@gmail.com", "password123");
         
         User savedUser = repository.save(userToCreate);
         
