@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.sql.SQLException;
 import java.util.Optional;
 
-import com.employeecontrol.infrastructure.database.DatabaseConnection;
+import java.sql.DriverManager;
 import com.employeecontrol.domain.entity.User;
 
 import java.sql.Connection;
@@ -20,14 +20,29 @@ public class UserRepositoryJdbcTest {
     private UserRepositoryJdbc repository;
     
     @BeforeEach
-    void setUp() {
-        connection = DatabaseConnection.getConnection();
+    void setUp() throws SQLException {
+        String url = "jdbc:postgresql://localhost:5432/employee_control_test";
+
+        connection = DriverManager.getConnection(
+            url,
+            "postgres",
+            "postgrespassword"
+        );
+
+        connection.setAutoCommit(false);
+
         repository = new UserRepositoryJdbc(connection);
     }
     
     @AfterEach
     void tearDown() throws SQLException {
-        connection.close();
+        if (connection != null) {
+            try {
+                connection.rollback();
+            } finally {
+                connection.close();
+            }
+        }
     }
     
     @Test
