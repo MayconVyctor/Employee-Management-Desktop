@@ -7,5 +7,5 @@ public interface EmployeeRepository {
     
    Employee save(Employee employee);
    
-   List<Employee>listEmployeers();
+   List<Employee> findAll();
 }
