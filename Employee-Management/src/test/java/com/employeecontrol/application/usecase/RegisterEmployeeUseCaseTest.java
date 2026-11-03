@@ -17,7 +17,7 @@ import com.employeecontrol.domain.entity.Employee;
 import com.employeecontrol.domain.repository.EmployeeRepository;
 
 @ExtendWith(MockitoExtension.class)
-class RegisterEmployeeUseCaseTest {
+public class RegisterEmployeeUseCaseTest {
 
     @Mock
     private EmployeeRepository employeeRepository;
