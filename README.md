@@ -17,7 +17,7 @@ A aplicação foi construída utilizando **Java 21, Java Swing, PostgreSQL e JDB
 | Docker Compose | Configuração do ambiente PostgreSQL |
 | JUnit 5 | Testes automatizados |
 | Mockito | Isolamento de dependências nos testes unitários |
-| GitHub Actions | Integração contínua |
+| GitHub Actions | Integração contínua CI |
 
 ## 2. Funcionalidades e requisitos atendidos
 
@@ -194,7 +194,7 @@ A persistência utiliza JDBC, sem ORM, com consultas e inserções implementadas
 - JDK 21
 - Apache Maven
 - Docker e Docker Compose
-- Apache NetBeans (recomendado)
+- Apache NetBeans 
 
 ### 5.1. Clonar o repositório
 
@@ -209,9 +209,11 @@ cd Employee-Management-Desktop/Employee-Management
 docker compose up -d
 ```
 
+Importante: o PostgreSQL precisa estar funcionando antes de iniciar a aplicação!
+
 O Docker Compose configura o ambiente PostgreSQL utilizado pela aplicação.
 
-O script `init.sql` define a estrutura das tabelas. Em uma inicialização nova do volume do PostgreSQL, ele deve ser aplicado conforme a configuração do Docker Compose.
+O script `init.sql` define a estrutura das tabelas, em uma inicialização nova do volume do PostgreSQL, ele deve ser aplicado conforme a configuração do Docker Compose e criar as tabelas automaticamente
 
 ### 5.3. Configuração da conexão
 
@@ -223,7 +225,7 @@ A classe `DatabaseConnection` utiliza as seguintes variáveis de ambiente:
 | `DB_USER` | `postgres` |
 | `DB_PASSWORD` | `postgrespassword` |
 
-Os valores podem ser substituídos por variáveis de ambiente do sistema operacional.
+Os valores podem ser substituídos por variáveis de ambiente via arquivo .env, mas deixei valores padrao para facilitar a execucao e os testes locais pelo Docker.
 
 ### 5.4. Executar os testes
 
@@ -241,7 +243,12 @@ Execute a classe principal:
 com.employeecontrol.Main
 ```
 
-A aplicação abrirá a tela de login. Um novo usuário pode ser criado pelo botão **Register**.
+ou rode esse comando no seu terminal local: 
+```text
+mvn clean compile exec:java -Dexec.mainClass="com.employeecontrol.Main"
+```
+
+A aplicação abrirá a tela de login. Um novo usuário pode ser criado em uma outra tela especifica pelo botão **Register**.
 
 Após a autenticação, será exibida a tela de gerenciamento de funcionários.
 
@@ -295,11 +302,11 @@ As dependências são fornecidas por construtores e organizadas na classe `Main.
 
 O algoritmo SHA-256 foi utilizado para atender ao requisito explícito do teste prático.
 
-Em sistemas de produção, recomenda-se utilizar algoritmos específicos para armazenamento de senhas, como Argon2id ou bcrypt, com parâmetros apropriados de segurança.
+Em sistemas de produção, acredito que é mais recomendado utilizar algoritmos específicos para armazenamento de senhas como o Argon2id ou bcrypt, com parâmetros apropriados de segurança.
 
 ### Interface com NetBeans GUI Builder
 
-As telas foram desenvolvidas com os recursos visuais do NetBeans, utilizando arquivos `.form` para facilitar a manutenção do layout.
+As telas foram desenvolvidas com os recursos visuais da IDE NetBeans, utilizando arquivos `.form` para facilitar a manutenção do layout.
 
 ## 8. Melhorias futuras
 
