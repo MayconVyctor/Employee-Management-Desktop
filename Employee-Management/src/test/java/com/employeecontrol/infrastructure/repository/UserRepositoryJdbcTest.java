@@ -6,7 +6,8 @@ import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
-    
+import java.util.Optional;
+
 import com.employeecontrol.infrastructure.database.DatabaseConnection;
 import com.employeecontrol.domain.entity.User;
 
@@ -40,7 +41,21 @@ public class UserRepositoryJdbcTest {
         assertNotNull(savedUser.getCreatedAt());
         assertEquals("Maycon", savedUser.getName());
         assertEquals("mike@gmail.com", savedUser.getEmail());
-        assertEquals("password123", savedUser.getPasswordHash());
-        
+        assertEquals("password123", savedUser.getPasswordHash());   
     }
+    
+    @Test
+    void shouldReturnUserWhenEmailExists() {
+        User userToCreate = new User("Maycon", "mike@gmail.com", "password123");
+        
+        User savedUser = repository.save(userToCreate);
+        Optional<User> resultOptional = repository.findByEmail(savedUser.getEmail());
+        
+        assertTrue(resultOptional.isPresent());
+
+        User foundUser = resultOptional.get();
+        assertEquals("mike@gmail.com", foundUser.getEmail());
+    }
+    
+    
 }
